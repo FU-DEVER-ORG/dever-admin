@@ -169,7 +169,6 @@ function DepartmentManagementModule() {
           columns={columns}
           dataSource={result}
           loading={isFetching}
-          pagination={{ pageSize: 5 }}
           rowKey={(record) => record._id}
         />
       </S.TableWrapper>
