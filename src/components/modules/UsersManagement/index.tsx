@@ -5,7 +5,6 @@ import {
   Checkbox,
   Flex,
   Input,
-  Pagination,
   Popconfirm,
   SelectProps,
   Space,
@@ -14,7 +13,7 @@ import {
   Typography,
   message,
 } from "antd";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import { SearchOutlined } from "@ant-design/icons";
@@ -28,12 +27,11 @@ import {
   useGetAllUsersQuery,
 } from "@/store/queries/usersMangement";
 import { createQueryString } from "@/utils/queryString";
-
-import * as S from "./styles";
-import { useEffect, useState } from "react";
-import { edgeServerAppPaths } from "next/dist/build/webpack/plugins/pages-manifest-plugin";
 import { useGetAllDepartmentsQuery } from "@/store/queries/departmentMangement";
 import { useGetAllPositionQuery } from "@/store/queries/positionManagement";
+
+import * as S from "./styles";
+import { useGetAllMajorQuery } from "@/store/queries/majorManagement";
 
 interface DataType {
   key: string;
@@ -117,7 +115,7 @@ function UsersManagementModule() {
     }
   );
 
-  const majorData: InterfaceDepartmentData = useGetAllPositionQuery(undefined, {
+  const majorData: InterfaceDepartmentData = useGetAllMajorQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => {
       const newMajorData = data?.data?.map((major: any) => ({
         label: major.name,
@@ -255,7 +253,7 @@ function UsersManagementModule() {
       },
     },
     {
-      title: t("function"),
+      title: t("action"),
       key: "action",
       render: (_, record) => {
         return (
@@ -315,10 +313,6 @@ function UsersManagementModule() {
     } catch (err) {}
   };
 
-  const handlePageChange = (page: number) => {
-    router.push(createQueryString("page", `${page}`));
-  };
-
   const handleSearch = _.debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     router.push(createQueryString("search", `${e?.target?.value}`));
   }, 300);
@@ -342,17 +336,9 @@ function UsersManagementModule() {
           columns={columns}
           dataSource={result}
           loading={isFetching}
-          pagination={false}
           rowKey={(record) => record._id}
         />
       </S.TableWrapper>
-      <Flex justify="flex-end">
-        <Pagination
-          defaultCurrent={page}
-          total={total}
-          onChange={handlePageChange}
-        />
-      </Flex>
     </S.PageWrapper>
   );
 }

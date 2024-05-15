@@ -13,4 +13,14 @@ export const sidebarMenu: MenuProps["items"] = [
     icon: React.createElement(UserOutlined),
     label: "departmentManagement",
   },
+  {
+    key: "position-management",
+    icon: React.createElement(UserOutlined),
+    label: "positionManagement",
+  },
+  {
+    key: "major-management",
+    icon: React.createElement(UserOutlined),
+    label: "majorManagement",
+  },
 ];

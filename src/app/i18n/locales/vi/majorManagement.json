@@ -1,0 +1,27 @@
+{
+  "title": "Quản lý kì học",
+  "name": "Tên",
+  "value": "Giá trị",
+  "function": "Chức năng",
+
+  "addMajor": {
+    "title": "Thêm kì học",
+    "name": "Tên",
+    "value": "Giá trị",
+    "add": "Thêm"
+  },
+
+  "editMajor": {
+    "title": "Chỉnh sửa thông tin kì học",
+    "name": "Tên",
+    "value": "Giá trị",
+    "edit": "Chỉnh sửa"
+  },
+  "deleteMajor": {
+    "title": "Xóa kì học",
+    "description": "Bạn có chắc chắn muốn xoá kì học này?",
+    "cancelText": "Hủy",
+    "okText": "Xác nhận",
+    "delete": "Xóa"
+  }
+}
