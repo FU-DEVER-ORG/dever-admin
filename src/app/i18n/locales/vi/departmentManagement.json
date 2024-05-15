@@ -1,5 +1,8 @@
 {
   "title": "Quản lý ban",
+  "name": "Tên",
+  "value": "Giá trị",
+  "function": "Chức năng",
 
   "addDepartment": {
     "title": "Thêm ban",
@@ -13,5 +16,12 @@
     "name": "Tên",
     "value": "Giá trị",
     "edit": "Chỉnh sửa"
+  },
+  "deleteDepartment": {
+    "title": "Xóa ban",
+    "description": "Bạn có chắc chắn muốn xoá ban này?",
+    "cancelText": "Hủy",
+    "okText" : "Xác nhận",
+    "delete": "Xóa"
   }
 }

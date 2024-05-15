@@ -1,5 +1,8 @@
 {
   "title": "Department Management",
+  "name": "Name",
+  "value": "Value",
+  "function": "Function",
 
   "addDepartment": {
     "title": "Add Department",
@@ -13,5 +16,12 @@
     "name": "Name",
     "value": "Value",
     "edit": "Edit"
+  },
+  "deleteDepartment": {
+    "title": "Delete department",
+    "description": "Are you sure to delete this department?",
+    "cancelText": "Cancel",
+    "okText": "Ok",
+    "delete": "Delete"
   }
 }

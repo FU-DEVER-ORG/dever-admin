@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Select as SelectFromAntd } from "antd";
 
 export const PageWrapper = styled.section`
   display: flex;
@@ -32,4 +33,7 @@ export const FilterWrapper = styled.div`
   gap: 8px;
 
   margin-bottom: 24px;
+`;
+export const Select = styled(SelectFromAntd)`
+  width: 100%;
 `;

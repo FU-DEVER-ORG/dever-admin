@@ -100,18 +100,18 @@ function DepartmentManagementModule() {
       width: 50,
     },
     {
-      title: "Tên",
+      title: t('name'),
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Giá trị",
+      title: t('value'),
       dataIndex: "constant",
       key: "constant",
       width: 200,
     },
     {
-      title: "Thao tác",
+      title: t('function'),
       key: "action",
       width: 200,
       render: (_, record) => {
@@ -131,10 +131,10 @@ function DepartmentManagementModule() {
               }}
             />
             <Popconfirm
-              title="Xoá ban"
-              description="Bạn có chắc chắn muốn xoá ban này?"
-              okText="Xác nhận"
-              cancelText="Huỷ"
+              title={t("deleteDepartment.title")}
+              description={t("deleteDepartment.description")}
+              okText={t("deleteDepartment.okText")}
+              cancelText={t("deleteDepartment.cancelText")}
               onConfirm={() => handleDelete(record?._id)}
             >
               <Button
