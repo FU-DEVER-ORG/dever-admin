@@ -261,10 +261,10 @@ function UsersManagementModule() {
         return (
           <Flex justify="center" gap={20}>
             <Popconfirm
-              title={t("editDepartment.title")}
-              description={t("editDepartment.description")}
-              okText={t("editDepartment.okText")}
-              cancelText={t("editDepartment.cancelText")}
+              title={t("deleteDepartment.title")}
+              description={t("deleteDepartment.description")}
+              okText={t("deleteDepartment.okText")}
+              cancelText={t("deleteDepartment.cancelText")}
               onConfirm={() => handleDelete(record?._id)}
             >
               <Button
@@ -300,6 +300,7 @@ function UsersManagementModule() {
   const handleDelete = async (id: string) => {
     try {
       await deleteUser(id).unwrap();
+      refetch();
       message.success("Xóa thành công");
     } catch (err) {}
   };
