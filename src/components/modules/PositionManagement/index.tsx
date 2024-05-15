@@ -166,7 +166,7 @@ function PositionManagementModule() {
           columns={columns}
           dataSource={result}
           loading={isFetching}
-          pagination={false}
+          pagination={{ pageSize: 5 }}
           rowKey={(record) => record._id}
         />
       </S.TableWrapper>

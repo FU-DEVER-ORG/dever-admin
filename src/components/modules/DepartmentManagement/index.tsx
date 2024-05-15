@@ -100,18 +100,18 @@ function DepartmentManagementModule() {
       width: 50,
     },
     {
-      title: t('name'),
+      title: t("name"),
       dataIndex: "name",
       key: "name",
     },
     {
-      title: t('value'),
+      title: t("value"),
       dataIndex: "constant",
       key: "constant",
       width: 200,
     },
     {
-      title: t('function'),
+      title: t("function"),
       key: "action",
       width: 200,
       render: (_, record) => {
@@ -169,7 +169,7 @@ function DepartmentManagementModule() {
           columns={columns}
           dataSource={result}
           loading={isFetching}
-          pagination={false}
+          pagination={{ pageSize: 5 }}
           rowKey={(record) => record._id}
         />
       </S.TableWrapper>
