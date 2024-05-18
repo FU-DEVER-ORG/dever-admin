@@ -10,8 +10,8 @@ import {
   Space,
   Table,
   TableProps,
+  Tooltip,
   Typography,
-  Upload,
   message,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -33,19 +33,21 @@ import {
 import { createQueryString } from "@/utils/queryString";
 import { useGetAllDepartmentsQuery } from "@/store/queries/departmentMangement";
 import { useGetAllPositionQuery } from "@/store/queries/positionManagement";
+import { useGetAllMajorQuery } from "@/store/queries/majorManagement";
 
 import * as S from "./styles";
-import { useGetAllMajorQuery } from "@/store/queries/majorManagement";
 
 interface DataType {
   key: string;
   _id: string;
-  name: string;
+  firstname: string;
+  lastname: string;
   position: string;
   major: string;
-  department: string;
+  departments: any;
   isAdmin: boolean;
   isExcellent: boolean;
+  email: string;
 }
 
 interface InterfaceDepartmentData {
@@ -58,7 +60,6 @@ function UsersManagementModule() {
   const searchParams = useSearchParams();
   const [editUser] = useEditUserMutation();
   const [deleteUser] = useDeleteUserMutation();
-
   const fileReader = new FileReader();
 
   const page = Number(searchParams.get("page")) || 1;
@@ -79,7 +80,7 @@ function UsersManagementModule() {
           ...user,
         }));
         return {
-          result: newDataUsers ?? [],
+          result: data?.data?.users ?? [],
           total: data?.result ?? 0,
           isFetching,
         };
@@ -115,6 +116,7 @@ function UsersManagementModule() {
         }));
         return {
           result: newPositionData ?? [],
+          total: data?.result ?? 0,
           isFetching,
         };
       },
@@ -140,15 +142,34 @@ function UsersManagementModule() {
       title: "STT",
       dataIndex: "",
       key: "",
-      width: 50,
+      width: 58,
+      fixed: "left",
       render: (text, _, index) => (
         <Typography.Text>{index + 1}</Typography.Text>
       ),
     },
     {
       title: t("name"),
-      dataIndex: "name",
+      dataIndex: "",
       key: "name",
+      fixed: "left",
+      width: 200,
+      render: (value, record) => {
+        return (
+          <Typography.Text>
+            {record?.firstname} {record?.lastname}
+          </Typography.Text>
+        );
+      },
+    },
+    {
+      title: t("email"),
+      dataIndex: "email",
+      key: "email",
+      width: 200,
+      render: (value, record) => (
+        <Typography.Text>{record?.email}</Typography.Text>
+      ),
     },
     {
       title: t("position"),
@@ -174,31 +195,42 @@ function UsersManagementModule() {
     },
     {
       title: t("department"),
-      dataIndex: "departmentId",
-      key: "departmentId",
-      width: 200,
-      render: (value, record) => (
-        <div>
-          <S.Select
-            options={departmentData?.result}
-            defaultValue={value?.name}
-            onChange={(id: any) =>
-              HandleField(id, record, departmentData, "departmentId")
-            }
-          >
-            <Space>
-              {value?.name}
+      dataIndex: "departments",
+      key: "departments",
+      width: 160,
+      render: (values, record) => {
+        const defaultValue = values.map((value: any) => ({
+          label: value?.name,
+          value: value?._id,
+        }));
+        return (
+          <div>
+            <S.Select
+              mode="multiple"
+              options={departmentData?.result}
+              defaultValue={defaultValue}
+              onChange={(id: any) => {
+                const newData = departmentData?.result?.filter((department) => {
+                  return id.includes(department?._id);
+                });
+                const newEdit = {
+                  ...record,
+                  departments: newData,
+                };
+                handleEditUser(newEdit, false);
+              }}
+            >
               <DownOutlined />
-            </Space>
-          </S.Select>
-        </div>
-      ),
+            </S.Select>
+          </div>
+        );
+      },
     },
     {
       title: t("major"),
       dataIndex: "majorId",
       key: "majorId",
-      width: 200,
+      width: 180,
       render: (value, record) => (
         <div>
           <S.Select
@@ -220,6 +252,7 @@ function UsersManagementModule() {
       title: t("admin"),
       dataIndex: "isAdmin",
       key: "isAdmin",
+      width: 120,
       render: (value, record) => {
         return (
           <Flex justify="center" align="center">
@@ -241,6 +274,7 @@ function UsersManagementModule() {
       title: t("excellent"),
       dataIndex: "isExcellent",
       key: "isExcellent",
+      width: 90,
       render: (_, record) => {
         return (
           <Flex justify="center" align="center">
@@ -259,8 +293,9 @@ function UsersManagementModule() {
       },
     },
     {
-      title: t("action"),
       key: "action",
+      fixed: "right",
+      width: 50,
       render: (_, record) => {
         return (
           <Flex justify="center" gap={20}>
@@ -318,6 +353,7 @@ function UsersManagementModule() {
       message.success("Thay đổi thành công");
     } catch (err) {}
   };
+
   const csvFileToArray = (string: any) => {
     const csvHeader = string.slice(0, string.indexOf("\n")).split(",");
     const csvRows = string.slice(string.indexOf("\n") + 1).split("\n");
@@ -385,6 +421,7 @@ function UsersManagementModule() {
           dataSource={result}
           loading={isFetching}
           rowKey={(record) => record._id}
+          scroll={{ x: 1300 }}
         />
       </S.TableWrapper>
     </S.PageWrapper>

@@ -4,14 +4,15 @@
   "position": "Chức vụ",
   "department": "Ban",
   "major": "Chuyên ngành",
-  "admin": "Chủ nhiệm",
+  "admin": "Quản trị viên",
   "excellent": "Tiêu biểu",
   "action": "Chức năng",
+  "email": "Email",
   "search": "Tìm kiếm",
   "import": "Thêm csv",
   "deleteDepartment": {
     "title": "Xóa ban",
-    "description": "Bạn có chắc chắn muốn xoá ban này?",
+    "description": "Bạn có chắc chắn muốn xoá người dùng này?",
     "cancelText": "Hủy",
     "okText": "Xác nhận",
     "delete": "Xóa"
