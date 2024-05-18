@@ -7,6 +7,9 @@
   "admin": "Admin",
   "excellent": "Excellent",
   "action": "Action",
+  "search": "Search",
+  "import": "Import csv",
+
   "deleteDepartment": {
     "title": "Delete department",
     "description": "Are you sure to delete this department?",

@@ -11,13 +11,17 @@ import {
   Table,
   TableProps,
   Typography,
+  Upload,
   message,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
-import { SearchOutlined } from "@ant-design/icons";
-import { DownOutlined } from "@ant-design/icons";
+import {
+  DownOutlined,
+  UploadOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import _ from "lodash";
 
 import { useTranslation } from "@/app/i18n/client";
@@ -54,6 +58,8 @@ function UsersManagementModule() {
   const searchParams = useSearchParams();
   const [editUser] = useEditUserMutation();
   const [deleteUser] = useDeleteUserMutation();
+
+  const fileReader = new FileReader();
 
   const page = Number(searchParams.get("page")) || 1;
   const search = searchParams.get("search") || "";
@@ -224,7 +230,7 @@ function UsersManagementModule() {
                   ...record,
                   isAdmin: !value,
                 };
-                HandleEditUser(newRecord, true);
+                handleEditUser(newRecord, true);
               }}
             ></Checkbox>
           </Flex>
@@ -245,7 +251,7 @@ function UsersManagementModule() {
                   ...record,
                   isExcellent: !record?.isExcellent,
                 };
-                HandleEditUser(newRecord, true);
+                handleEditUser(newRecord, true);
               }}
             ></Checkbox>
           </Flex>
@@ -292,7 +298,7 @@ function UsersManagementModule() {
       ...record,
       [type]: newData,
     };
-    HandleEditUser(newEdit, false);
+    handleEditUser(newEdit, false);
   };
 
   const handleDelete = async (id: string) => {
@@ -302,7 +308,7 @@ function UsersManagementModule() {
       message.success("Xóa thành công");
     } catch (err) {}
   };
-  const HandleEditUser = async (data: any, isfetch: boolean) => {
+  const handleEditUser = async (data: any, isfetch: boolean) => {
     try {
       await editUser({
         params: { id: data?._id },
@@ -311,6 +317,34 @@ function UsersManagementModule() {
       if (isfetch) refetch();
       message.success("Thay đổi thành công");
     } catch (err) {}
+  };
+  const csvFileToArray = (string: any) => {
+    const csvHeader = string.slice(0, string.indexOf("\n")).split(",");
+    const csvRows = string.slice(string.indexOf("\n") + 1).split("\n");
+    console.log("first", csvRows);
+    const array = csvRows.map((i: any) => {
+      const values = i.split(",");
+      const obj = csvHeader.reduce(
+        (object: any, header: any, index: number) => {
+          object[header] = values[index];
+          return object;
+        },
+        {}
+      );
+      return obj;
+    });
+    console.log("aray : any", array);
+  };
+  const handleImportCsv = (e: any) => {
+    const file = e?.target?.files[0];
+    if (file) {
+      fileReader.onload = function (event) {
+        const text = event?.target?.result;
+        csvFileToArray(text);
+      };
+
+      fileReader?.readAsText(file);
+    }
   };
 
   const handleSearch = _.debounce((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -323,13 +357,27 @@ function UsersManagementModule() {
         <Typography.Title level={2}>{t("title")}</Typography.Title>
       </S.Head>
       <S.FilterWrapper>
-        <Typography.Title level={5}>{t("Search")}</Typography.Title>
-        <Input
-          placeholder="Search..."
-          prefix={<SearchOutlined />}
-          onChange={handleSearch}
-          defaultValue={search}
-        />
+        <div className="search">
+          <Typography.Title level={5}>{t("search")}</Typography.Title>
+          <Input
+            placeholder="Search..."
+            prefix={<SearchOutlined />}
+            onChange={handleSearch}
+            defaultValue={search}
+          />
+        </div>
+        <div className="input_csv">
+          <Button
+            icon={<UploadOutlined />}
+            onClick={() => {
+              const inputFile = document.getElementById("import_csv");
+              inputFile?.click();
+            }}
+          >
+            {t("import")}{" "}
+          </Button>
+          <input id="import_csv" type="file" onChange={handleImportCsv} />
+        </div>
       </S.FilterWrapper>
       <S.TableWrapper>
         <Table
