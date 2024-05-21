@@ -123,7 +123,7 @@ function ProjectManagementModule() {
         <Button
           type="primary"
           icon={<PlusOutlined />}
-          onClick={addModal.openModal}
+          onClick={() => router.push("/project-management/create")}
         >
           Thêm dự án mới
         </Button>

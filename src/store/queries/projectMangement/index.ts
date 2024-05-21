@@ -32,9 +32,9 @@ export const authAPI = baseApi.injectEndpoints({
         flashError: true,
       }),
     }),
-    createDepartment: build.mutation({
+    createProject: build.mutation({
       query: (data: any) => ({
-        url: endpointDepartmentManagement.DEPARTMENT,
+        url: endpointProjectManagement.PROJECT,
         method: "POST",
         body: data,
         flashError: true,
@@ -58,6 +58,6 @@ export const {
   useGetAllProjectsQuery,
   useGetProjectByIdQuery,
   useDeleteProjectMutation,
-  useCreateDepartmentMutation,
+  useCreateProjectMutation,
   useEditProjectMutation,
 } = authAPI;

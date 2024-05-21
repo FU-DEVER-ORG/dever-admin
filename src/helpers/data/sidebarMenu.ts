@@ -36,11 +36,6 @@ export const sidebarMenu: MenuProps["items"] = [
     label: "socialManagement",
   },
   {
-    key: "image-activity-management",
-    icon: React.createElement(BookOutlined),
-    label: "imageActivityManagement",
-  },
-  {
     key: "project-management",
     icon: React.createElement(AimOutlined),
     label: "projectManagement",
