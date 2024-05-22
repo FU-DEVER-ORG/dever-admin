@@ -5,6 +5,9 @@
   "positionManagement": "Position Management",
   "majorManagement": "Major Management",
   "socialManagement": "Social Management",
+  "imageActivityManagement": "Image Activity Management",
+  "albumManagement": "Album Management",
+  "projectManagement": "Project Management",
 
   "english": "English",
   "vietnamese": "Vietnamese"

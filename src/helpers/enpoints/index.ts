@@ -42,10 +42,33 @@ const endpointSocialManagement = {
   GET_SOCIAL_BY_ID: `${prefixBase}/social/{id}`,
   EDIT_SOCIAL_BY_ID: `${prefixBase}/social/{id}`,
 };
+const endpointImageActivityManagement = {
+  GET_ALL_IMAGES: `${prefixBase}/image-activity`,
+  DELETE_IMAGE: `${prefixBase}/image-activity/{id}`,
+  DELETE_MANY_IMAGE: `${prefixBase}/image-activity/`,
+  IMAGE: `${prefixBase}/image-activity`,
+};
+const endpointProjectManagement = {
+  GET_ALL_PROJECT: `${prefixBase}/project`,
+  DELETE_PROJECT: `${prefixBase}/project/{id}`,
+  GET_PROJECT_DETAIL: `${prefixBase}/project/{id}`,
+  EDIT_PROJECT: `${prefixBase}/project/{id}`,
+  PROJECT: `${prefixBase}/project`,
+};
+const endpointAlbumManagement = {
+  GET_ALL_Album: `${prefixBase}/album`,
+  DELETE_ALBUM: `${prefixBase}/album/{id}`,
+  GET_ALBUM_DETAIL: `${prefixBase}/album/{id}`,
+  EDIT_ALBUM: `${prefixBase}/album/{id}`,
+  ALBUM: `${prefixBase}/album`,
+  DELETE_MANY_IMAGES_IN_ALBUM: `${prefixBase}/album/{slug}/delete-images`,
+  UPLOAD_IMAGES_FOR_ALBUM: `${prefixBase}/album/{slug}`,
+};
 
 const endpointOther = {};
 
 export {
+  endpointAlbumManagement,
   endpointAuth,
   endpointUsersManagement,
   endpointDepartmentManagement,
@@ -53,4 +76,6 @@ export {
   endpointPositionManagement,
   endpointMajorManagement,
   endpointSocialManagement,
+  endpointImageActivityManagement,
+  endpointProjectManagement,
 };
