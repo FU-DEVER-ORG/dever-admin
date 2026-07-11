@@ -5,12 +5,12 @@ import { Col, Flex, Image, Row, Typography, Upload, message } from "antd";
 import { useParams } from "next/navigation";
 import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import _ from "lodash";
-import axios from "axios";
 
 import {
   useGetAlbumDetailQuery,
   useUploadImageForAlbumMutation,
 } from "@/store/queries/albumManagement";
+import { uploadImageToApi } from "@/helpers/upload-image-to-api";
 
 import Button from "@/components/core/common/Button";
 
@@ -66,29 +66,17 @@ function AlbumDetailModule() {
     file,
     onProgress,
   }: any) => {
-    const fmData = new FormData();
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-      onUploadProgress: (event: any) => {
-        onProgress({ percent: (event.loaded / event.total) * 100 });
-        setIsUploading(true);
-      },
-    };
-
-    fmData.append("image", file);
     try {
-      const res = await axios.post(
-        "https://api.imgbb.com/1/upload?key=c9a0d416d3771b79bea983ffbb51811e",
-        fmData,
-        config
+      setIsUploading(true);
+      const url = await uploadImageToApi(file, (percent) =>
+        onProgress({ percent })
       );
-
       onSuccess("Ok");
-      setImageUrl(res?.data?.data?.url);
-      setIsUploading(false);
+      setImageUrl(url);
     } catch (err) {
-      const error = new Error("Some error");
-      onError({ error });
+      onError({ error: new Error("Some error") });
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -132,10 +120,6 @@ function AlbumDetailModule() {
             </Button>
             <Upload
               name="file"
-              action="https://api.imgbb.com/1/upload?expiration=600&key=d0adfbcb1f973887c165948d50681492"
-              headers={{
-                authorization: "authorization-text",
-              }}
               customRequest={handleUpload}
               multiple
               fileList={fileList?.map((file) => ({
