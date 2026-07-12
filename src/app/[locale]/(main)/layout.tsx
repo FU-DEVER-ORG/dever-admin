@@ -1,4 +1,3 @@
-import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -6,16 +5,16 @@ import MainLayout from "@/components/core/layouts/MainLayout";
 
 import { constants } from "@/settings";
 
-export default function RootMainLayout({
+export default async function RootMainLayout({
   children,
-  params: { locale },
+  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }>) {
-  const token = getCookie(constants.ACCESS_TOKEN, { cookies });
-
-  console.log(token);
+  const { locale } = await params;
+  const cookieStore = await cookies();
+  const token = cookieStore.get(constants.ACCESS_TOKEN)?.value;
 
   if (!token) {
     redirect(`/${locale}/sign-in`);

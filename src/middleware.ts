@@ -4,8 +4,10 @@ import { fallbackLng, languages, cookieName } from "./app/i18n/settings";
 
 acceptLanguage.languages(languages);
 
+// Edge middleware convention. Next 16's Node-runtime `proxy.ts` is not yet
+// supported by the OpenNext Cloudflare adapter, so locale handling runs here
+// on the Edge runtime instead.
 export const config = {
-  // matcher: '/:lng*'
   matcher: [
     "/((?!api|_next/static|_next/image|assets|images|models|fonts|sw.js).*)",
   ],

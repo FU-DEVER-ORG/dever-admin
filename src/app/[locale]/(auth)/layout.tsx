@@ -1,4 +1,3 @@
-import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -6,14 +5,16 @@ import AuthLayout from "@/components/core/layouts/AuthLayout";
 
 import { constants } from "@/settings";
 
-export default function RootAuthLayout({
+export default async function RootAuthLayout({
   children,
-  params: { locale },
+  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }>) {
-  const token = getCookie(constants.ACCESS_TOKEN, { cookies });
+  const { locale } = await params;
+  const cookieStore = await cookies();
+  const token = cookieStore.get(constants.ACCESS_TOKEN)?.value;
 
   if (token) {
     redirect(`/${locale}/user-management`);
