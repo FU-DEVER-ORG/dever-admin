@@ -33,7 +33,7 @@ stages:
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '18.x'
+        versionSpec: '20.x'
       displayName: 'Install Node.js'
  
     - script: |
@@ -73,4 +73,4 @@ stages:
               appType: 'webAppLinux'
               appName: '$(appServiceName)'
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              runtimeStack: 'NODE|18-lts'
+              runtimeStack: 'NODE|20-lts'

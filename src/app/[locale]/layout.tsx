@@ -16,12 +16,13 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }>) {
+  const { locale } = await params;
   return (
-    <html lang={params?.locale}>
+    <html lang={locale}>
       <body className={inter.className} suppressHydrationWarning={true}>
         <Providers>{children}</Providers>
       </body>

@@ -1,8 +1,39 @@
+"use client";
+
 import React from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import {
+  ClassicEditor,
+  Essentials,
+  Paragraph,
+  Heading,
+  Bold,
+  Italic,
+  Link,
+  List,
+  Alignment,
+  BlockQuote,
+  Table,
+  TableToolbar,
+} from "ckeditor5";
+import "ckeditor5/ckeditor5.css";
 
 const editorConfiguration = {
+  // GPL license key for open-source usage (ckeditor5 v44+ requires an explicit key).
+  licenseKey: "GPL" as const,
+  plugins: [
+    Essentials,
+    Paragraph,
+    Heading,
+    Bold,
+    Italic,
+    Link,
+    List,
+    Alignment,
+    BlockQuote,
+    Table,
+    TableToolbar,
+  ],
   toolbar: [
     "heading",
     "|",
@@ -28,11 +59,11 @@ const CustomEditor = ({ getData, data }: CustomEditorInterface) => {
   return (
     <CKEditor
       editor={ClassicEditor}
-      // config={editorConfiguration}
+      config={editorConfiguration}
       data={data}
       onChange={(_, editor) => {
-        const data = editor?.getData();
-        getData(data);
+        const value = editor?.getData();
+        getData(value);
       }}
     />
   );

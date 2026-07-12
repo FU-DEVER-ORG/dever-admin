@@ -9,14 +9,20 @@ const nextConfig = {
   },
   reactStrictMode: false,
   images: {
-    domains: [
-      "res.cloudinary.com",
-      "aiartshop.com",
-      "th.bing.com",
-      "i.ibb.co",
-      "example.com",
+    // Cloudflare Workers runtime has no built-in Next image optimizer; serve images as-is.
+    unoptimized: true,
+    remotePatterns: [
+      { protocol: "https", hostname: "res.cloudinary.com" },
+      { protocol: "https", hostname: "aiartshop.com" },
+      { protocol: "https", hostname: "th.bing.com" },
+      { protocol: "https", hostname: "i.ibb.co" },
+      { protocol: "https", hostname: "example.com" },
     ],
   },
 };
 
 export default withNextIntl(nextConfig);
+
+// Enables Cloudflare bindings (env, R2, etc.) during `next dev`. No-op in production build.
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+initOpenNextCloudflareForDev();
