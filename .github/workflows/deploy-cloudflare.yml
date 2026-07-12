@@ -1,0 +1,32 @@
+name: Deploy to Cloudflare
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # cho phép bấm chạy tay
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: main   # dùng secret đã set trong Environment "main"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm install --legacy-peer-deps
+
+      - name: Ghi .env.production từ secrets
+        run: |
+          cat > .env.production <<EOF
+          NEXT_PUBLIC_API_SERVER=${{ secrets.NEXT_PUBLIC_API_SERVER }}
+          EOF
+
+      - name: Build + Deploy
+        run: npm run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
